@@ -11,7 +11,15 @@ export const Listado = ({listadoState, setListadoState}) => {
     const conseguirPeliculas = () => {
         let peliculas = JSON.parse(localStorage.getItem('pelis'));
         setListadoState(peliculas);
+        return peliculas;
     };
+
+    const borrarPeli = (id) => {
+        let pelis_almacenadas = conseguirPeliculas();
+        let nuevo_listado = pelis_almacenadas.filter(peli => peli.id !== parseInt(id));
+        setListadoState(nuevo_listado);
+        localStorage.setItem("pelis", JSON.stringify(nuevo_listado));
+    }
 
     return (
         <>
@@ -24,7 +32,7 @@ export const Listado = ({listadoState, setListadoState}) => {
                             <p className="description">{peli.descripcion}</p>
 
                             <button className="edit">Editar</button>
-                            <button className="delete">Borrar</button>
+                            <button className="delete" onClick={ () => borrarPeli(peli.id)}>Borrar</button>
                         </article>
                     );
                 })
